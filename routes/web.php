@@ -38,19 +38,14 @@ Route::get('/callback/{service}', 'SocialController@callback');
 
 Route::group(['prefix' => LaravelLocalization::setlocale()], function(){
     Route::group(['prefix' => 'offers'], function(){
-
-
 		Route::get('create', 'CrudController@create');
-
-
+        Route::get('all', 'CrudController@getAllOffers');
         //Route::get('create', 'CrudController@create');
 
          //Route::get('create', 'CrudController@create');
         // Route::get('create', 'CrudController@create');
     Route::post('store', 'CrudController@store')->name('offers.store');
     });
-
-
 });
 
 

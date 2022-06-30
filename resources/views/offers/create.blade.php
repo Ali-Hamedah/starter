@@ -100,7 +100,7 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                Add your offer
+                {{ __('messages.Add your offer') }}
             </div>
             <form method="POST" action="{{ route('offers.store') }}">
                 @csrf
@@ -111,29 +111,68 @@
                 @endif
 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">offer name</label>
-                    <input type="text" class="form-control" name="name" aria-describedby="emailHelp"
-                        placeholder="Enter email">
-                    @error('name')
+                    <label for="exampleInputEmail1">{{ __('messages.Offer Name ar') }}</label>
+                    <input type="text" class="form-control" name="name_ar" aria-describedby="emailHelp"
+                        placeholder={{ __('messages.Offer Name ar') }}>
+                    @error('name_ar')
                         <small class="form-text text-danger"> {{ $message }}</small>
                     @enderror
-
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputPassword1">offer price</label>
-                    <input type="Text" class="form-control" name="price" placeholder="Password">
+                    <label for="exampleInputEmail1">{{ __('messages.Offer Name en') }}</label>
+                    <input type="text" class="form-control" name="name_en" aria-describedby="emailHelp"
+                        placeholder={{ __('messages.Offer Name en') }}>
+                    @error('name_en')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">{{ __('messages.Offer Name de') }}</label>
+                    <input type="text" class="form-control" name="name_de" aria-describedby="emailHelp"
+                        placeholder={{ __('messages.Offer Name de') }}>
+                    @error('name_de')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">{{ __('messages.Offer details ar') }}</label>
+                    <input type="text" class="form-control" name="details_ar" aria-describedby="emailHelp"
+                        placeholder={{ __('messages.Offer Name') }}>
+                    @error('details_ar')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">{{ __('messages.Offer details en') }}</label>
+                    <input type="text" class="form-control" name="details_en"aria-describedby="emailHelp"
+                        placeholder={{ __('messages.Offer Name') }}>
+                    @error('details_en')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">{{ __('messages.Offer details de') }}</label>
+                    <input type="text" class="form-control" name="details_de"aria-describedby="emailHelp"
+                        placeholder={{ __('messages.Offer Name') }}>
+                    @error('details_de')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputPassword1">{{ __('messages.Offer Price') }}</label>
+                    <input type="Text" class="form-control" name="price" placeholder={{ __('messages.Offer Price') }}>
                     @error('price')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">offer details</label>
-                    <input type="text" class="form-control" name="details" placeholder="Password">
-                    @error('details')
-                        <small class="form-text text-danger"> {{ $message }}</small>
-                    @enderror
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <button type="submit" class="btn btn-primary">{{ __('messages.Save Offer') }}</button>
             </form>
 
 
