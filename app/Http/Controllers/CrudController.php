@@ -7,11 +7,11 @@ namespace App\Http\Controllers;
 
 use ar;
 use App\Models\Offer;
+use LaravelLocalization;
 use Illuminate\Http\Request;
 use App\Http\Requests\OfferRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use LaravelLocalization;
 
 
 class CrudController extends Controller
@@ -35,14 +35,14 @@ class CrudController extends Controller
         return Offer::get();
     }
 
-   // public function storek()
+    // public function storek()
     //{
-       // Offer::create([
-           // 'name' => 'ahmed',
-           // 'price' => '5000',
-           // 'details' => 'details offer3',
-       // ]);
-   // }
+    // Offer::create([
+    // 'name' => 'ahmed',
+    // 'price' => '5000',
+    // 'details' => 'details offer3',
+    // ]);
+    // }
 
 
     public function create()
@@ -53,20 +53,21 @@ class CrudController extends Controller
     public function store(OfferRequest $request)
     {
         //تم استبدالها بملف OfferRequest
-  //validate data before insert to database
- // $rules = $this->getRules();
-  //$messages = $this->getMessages();
+        //validate data before insert to database
 
-  //$validator = Validator::make(
-     // $request->all(),
-      //$rules,
-      //$messages
-  //);
-  //if ($validator->fails()) {
-      // return $validator -> errors();
-      //return json_encode($validator->errors(), JSON_UNESCAPED_UNICODE); // عشان الغه العربيه تضهر
-    //  return redirect()->back()->withErrors($validator)->withInputs($request->all()); // ترجع رساله الخطا في نفس الصفحه
-  //}
+        // $rules = $this->getRules();
+        //$messages = $this->getMessages();
+
+        //$validator = Validator::make(
+        // $request->all(),
+        //$rules,
+        //$messages
+        //);
+        //if ($validator->fails()) {
+        // return $validator -> errors();
+        //return json_encode($validator->errors(), JSON_UNESCAPED_UNICODE); // عشان الغه العربيه تضهر
+        //  return redirect()->back()->withErrors($validator)->withInputs($request->all()); // ترجع رساله الخطا في نفس الصفحه
+        //}
 
 
         //insert in database ادخال البيانات الئ داتا
@@ -86,22 +87,46 @@ class CrudController extends Controller
     }
 
     //  عرض البيانات في الفيو
-    public function getAllOffers(){
+    public function getAllOffers()
+    {
         //عرض كل البيانات من الداتا
-     // $offers =  Offer::select('id', 'price',
-       //'name_ar','name_en', 'details_ar', 'details_en',)->get();
-     // return view('offers.all', compact('offers'));
+        // $offers =  Offer::select('id', 'price',
+        //'name_ar','name_en', 'details_ar', 'details_en',)->get();
+        // return view('offers.all', compact('offers'));
 
-      //عرض البيانات حسب اللغه
-      $offers =  Offer::select(
-        'id',
-        'price',
-        'name_'.LaravelLocalization::getcurrentLocale() .' as name', //نقطه مهمه انتبه للمسافات
-        'details_'.LaravelLocalization::getcurrentLocale().' as details',)->get();
-     return view('offers.all', compact('offers'));
+        //عرض البيانات حسب اللغه
+        $offers =  Offer::select(
+            'id',
+            'price',
+            'name_' . LaravelLocalization::getcurrentLocale() . ' as name', //نقطه مهمه انتبه للمسافات
+            'details_' . LaravelLocalization::getcurrentLocale() . ' as details',
+        )->get();
+        return view('offers.all', compact('offers'));
     }
 
+    public function editOffers($offer_id)
+    {
+        //chek if offer exists
 
+        //Offer::findOrFail($offer_id);
+        $offer = Offer::find($offer_id);
+        if (!$offer)
+            return redirect()->back();
 
+        $offer = Offer::select('id', 'name_ar', 'name_en', 'name_de', 'details_ar', 'details_en', 'details_de', 'price')->find($offer_id);
+        return view('offers.edit', compact('offer'));
+    }
 
+    public function updateOffers(OfferRequest $request, $offer_id)
+    {
+        //chek if offer exists
+
+        $offer = Offer::find($offer_id);
+        if (!$offer)
+            return redirect()->back();
+
+            //update date
+            $offer -> update($request -> all());
+            return redirect() -> back() -> with(['success' => 'تم التعديل بنجاح']);
+    }
 }
