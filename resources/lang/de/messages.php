@@ -17,7 +17,7 @@ return [
     "welcom" => 'WELCOME ',
     "offer name required" => 'Name des Angebots erforderlich',
     "offer name must be unique" => "Angebotsname muss eindeutig sein",
-    "Add your offer" => 'Fügen Sie Ihr Angebot hinzu ',
+    "Add your offer" => 'Fügen Ihr Angebot hinzu ',
     "Offer Name ar" => 'Arabic Offer Name',
     "Offer Name en" => 'English Offer Name',
     "Offer Name de" => 'Deutsch Offer Name',

@@ -97,59 +97,63 @@
                 </form>
             </div>
         </div>
-
-
     </nav>
 
-    @if(Session::has('success'))
+    <div class="flex-center position-ref full-height">
+        <div class="content">
+            <div class="title m-b-md">
+                {{ __('messages.Add your offer') }}
+            </div>
+            <form method="POST" action="{{ route('doctors.store') }}" enctype="multipart/form-data">
+                @csrf
+                @if (Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
 
-    <div class="alert alert-success">
-           {{Session::get('success')}}
+                <div class="form-group">
+                    <label for="exampleInputEmail1">name</label>
+                    <input type="text" class="form-control" name="name" aria-describedby="emailHelp"
+                        placeholder=name>
+                    @error('name')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">title</label>
+                    <input type="text" class="form-control" name="title" aria-describedby="emailHelp"
+                        placeholder=title>
+                    @error('title')
+                        <small class="form-text text-danger">title</small>
+                    @enderror
+                </div>
+
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">القسم</label>
+                <select name="hospital_id" id="hospital_id" class="form-control" required>
+                    <option value="" selected disabled> --حدد القسم--</option>
+                    @foreach ($hospital as $hospital)
+                    <option value="{{ $hospital->id }}">{{ $hospital->name }}</option>
+                    @endforeach
+                </select>
+
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">القسم</label>
+                <select name="gender" id="gender" class="form-control" required>
+                    <option value="" selected disabled> --حدد القسم--</option>
+                    @foreach ($doctors as $doctors)
+                    <option value="{{ $doctors->gender }}">{{ $doctors->gender }}</option>
+                    @endforeach
+                </select>
+
+
+
+                <button type="submit" class="btn btn-primary">save</button>
+            </form>
+
+
+        </div>
     </div>
-    @endif
-
-
-@if(Session::has('error'))
-     <div class="alert alert-danger">
-         {{Session::get('error')}}
-     </div>
-@endif
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">{{ __('messages.Offer Name') }}</th>
-                <th scope="col">{{ __('messages.Offer details') }}</th>
-                <th scope="col">{{ __('messages.Offer Price') }}</th>
-                <th scope="col">صوره العرض</th>
-                <th scope="col">{{ __('messages.operation') }}</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach ($offers as $offer)
-                <tr>
-                    <th scope="row">{{ $offer->id }}</th>
-                    <td>{{ $offer->name }}</td>
-                    <td>{{ $offer->details }}</td>
-                    <td>{{ $offer->price }}</td>
-                    <td><img  style="width: 90px; height: 90px;" src="{{asset('images/offers/'.$offer->photo)}}"></td>
-
-
-                    <td><a class="btn btn-success" href="{{ url('offers/edit/' . $offer->id) }}"
-                            role="button">{{ __('messages.update') }}</a>
-                            <a href="{{route('offers.delete',$offer -> id)}}" class="btn btn-danger"> {{__('messages.delete')}}</a>
-                        </td>
-
-                </tr>
-            @endforeach
-
-
-        </tbody>
-    </table>
-
 </body>
 
 </html>

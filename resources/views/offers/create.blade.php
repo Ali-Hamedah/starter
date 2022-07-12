@@ -16,7 +16,6 @@
 
 
     <style>
-
         html,
         body {
             background-color: #fff;
@@ -75,40 +74,51 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                            {{ $properties['native'] }}</a>
-                      </li>
-            @endforeach
-            </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
+                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page"
+                                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                {{ $properties['native'] }}</a>
+                        </li>
+                    @endforeach
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
         </div>
-      </nav>
+    </nav>
 
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
                 {{ __('messages.Add your offer') }}
             </div>
-            <form method="POST" action="{{ route('offers.store') }}">
+            <form method="POST" action="{{ route('offers.store') }}" enctype="multipart/form-data">
                 @csrf
                 @if (Session::has('success'))
                     <div class="alert alert-success" role="alert">
                         {{ Session::get('success') }}
                     </div>
                 @endif
+
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Default file input example</label>
+                    <input class="form-control" name="photo" type="file" id="formFile">
+                    @error('photo')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
 
                 <div class="form-group">
                     <label for="exampleInputEmail1">{{ __('messages.Offer Name ar') }}</label>
@@ -166,7 +176,8 @@
 
                 <div class="form-group">
                     <label for="exampleInputPassword1">{{ __('messages.Offer Price') }}</label>
-                    <input type="Text" class="form-control" name="price" placeholder={{ __('messages.Offer Price') }}>
+                    <input type="Text" class="form-control" name="price"
+                        placeholder={{ __('messages.Offer Price') }}>
                     @error('price')
                         <small class="form-text text-danger">{{ $message }}</small>
                     @enderror

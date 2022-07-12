@@ -97,59 +97,55 @@
                 </form>
             </div>
         </div>
-
-
     </nav>
 
-    @if(Session::has('success'))
+    <div class="flex-center position-ref full-height">
+        <div class="content">
+            <div class="title m-b-md">
+                {{ __('messages.Add your offer') }}
+            </div>
+            <form method="POST" action="{{ route('relation.store') }}" enctype="multipart/form-data">
+                @csrf
+                @if (Session::has('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
 
-    <div class="alert alert-success">
-           {{Session::get('success')}}
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Default file input example</label>
+                    <input class="form-control" name="photo" type="file" id="formFile">
+                    @error('photo')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">name</label>
+                    <input type="text" class="form-control" name="name" aria-describedby="emailHelp"
+                        placeholder=name>
+                    @error('name')
+                        <small class="form-text text-danger"> {{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">address</label>
+                    <input type="text" class="form-control" name="address" aria-describedby="emailHelp"
+                        placeholder=address>
+                    @error('address')
+                        <small class="form-text text-danger">address</small>
+                    @enderror
+                </div>
+
+
+
+                <button type="submit" class="btn btn-primary">save</button>
+            </form>
+
+
+        </div>
     </div>
-    @endif
-
-
-@if(Session::has('error'))
-     <div class="alert alert-danger">
-         {{Session::get('error')}}
-     </div>
-@endif
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">{{ __('messages.Offer Name') }}</th>
-                <th scope="col">{{ __('messages.Offer details') }}</th>
-                <th scope="col">{{ __('messages.Offer Price') }}</th>
-                <th scope="col">صوره العرض</th>
-                <th scope="col">{{ __('messages.operation') }}</th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach ($offers as $offer)
-                <tr>
-                    <th scope="row">{{ $offer->id }}</th>
-                    <td>{{ $offer->name }}</td>
-                    <td>{{ $offer->details }}</td>
-                    <td>{{ $offer->price }}</td>
-                    <td><img  style="width: 90px; height: 90px;" src="{{asset('images/offers/'.$offer->photo)}}"></td>
-
-
-                    <td><a class="btn btn-success" href="{{ url('offers/edit/' . $offer->id) }}"
-                            role="button">{{ __('messages.update') }}</a>
-                            <a href="{{route('offers.delete',$offer -> id)}}" class="btn btn-danger"> {{__('messages.delete')}}</a>
-                        </td>
-
-                </tr>
-            @endforeach
-
-
-        </tbody>
-    </table>
-
 </body>
 
 </html>

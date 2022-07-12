@@ -17,12 +17,13 @@
         <link href="{{URL::asset('css/styles.css')}}" rel="stylesheet"/>
     </head>
     <body id="page-top">
-
+        <!-- header-->
        @include('includes.header')
-        <!-- Portfolio Section-->
+        <!-- header-->
           @yield('content')
         <!-- Footer-->
         @include('includes.footer'))
+        <!-- Footer-->
 
         <!-- Copyright Section-->
         <div class="copyright py-4 text-center text-white">

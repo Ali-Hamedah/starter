@@ -28,8 +28,10 @@ class OfferRequest extends FormRequest
 
             'name_ar' => 'required|max:100|unique:offers,name_ar',
             'name_en' => 'required|max:100|unique:offers,name_en',
+            'name_de' => 'required|max:100|unique:offers,name_de',
             'details_ar' => 'required',
             'details_en' => 'required',
+            'details_de' => 'required',
             'price' => 'required|numeric',
 
 
@@ -39,11 +41,17 @@ class OfferRequest extends FormRequest
     public function messages()
     {
         return   [
-            'name.required' => __('messages.offer name required'),
-            'name.unique'  => __('messages.offer name must be unique'),
+            'name_ar.required' => __('messages.offer name required'),
+            'name_ar.unique'  => __('messages.offer name must be unique'),
+            'name_en.required' => __('messages.offer name required'),
+            'name_en.unique'  => __('messages.offer name must be unique'),
+            'name_de.required' => __('messages.offer name required'),
+            'name_de.unique'  => __('messages.offer name must be unique'),
             'price.numeric' => 'سعر العرض يجب ان يكون ارقام',
             'price.required' =>  __('messages.Offer Price'),
-            'details.required' => __('messages.Offer details'),
+            'details_ar.required' => __('messages.Offer details'),
+            'details_en.required' => __('messages.Offer details'),
+            'details_de.required' => __('messages.Offer details'),
         ];
     }
 }

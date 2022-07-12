@@ -8,7 +8,7 @@ class Offer extends Model
 {
     //
     protected   $fillable = [
-        'price', 'created_at', 'updated_at', 'name_ar', 'name_en', 'details_ar','details_en', 'name_de', 'details_de',
+        'price', 'photo', 'created_at', 'updated_at', 'name_ar', 'name_en', 'details_ar','details_en', 'name_de', 'details_de',
     ];
 
     protected $hidden = [

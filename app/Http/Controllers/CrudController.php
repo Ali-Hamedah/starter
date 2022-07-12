@@ -7,7 +7,10 @@ namespace App\Http\Controllers;
 
 use ar;
 use App\Models\Offer;
+use App\Models\video;
 use LaravelLocalization;
+use App\Traits\OfferTrait;
+use App\Events\VideoViewer;
 use Illuminate\Http\Request;
 use App\Http\Requests\OfferRequest;
 use App\Http\Controllers\Controller;
@@ -16,20 +19,15 @@ use Illuminate\Support\Facades\Validator;
 
 class CrudController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
+    use OfferTrait;
+
     public function __construct()
     {
+        $this -> middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function getOffers()
     {
         return Offer::get();
@@ -68,11 +66,14 @@ class CrudController extends Controller
         //return json_encode($validator->errors(), JSON_UNESCAPED_UNICODE); // عشان الغه العربيه تضهر
         //  return redirect()->back()->withErrors($validator)->withInputs($request->all()); // ترجع رساله الخطا في نفس الصفحه
         //}
+        //save photo in folder
+        $file_name = $this->saveImage($request->photo, 'images/offers'); //saveImage   تاتي من   trait OfferTrait
 
 
         //insert in database ادخال البيانات الئ داتا
         Offer::create([
             'id' => $request->id,
+            'photo' => $file_name,
             'name_ar' => $request->name_ar,
             'name_en' => $request->name_en,
             'name_de' => $request->name_de,
@@ -98,6 +99,7 @@ class CrudController extends Controller
         $offers =  Offer::select(
             'id',
             'price',
+            'photo',
             'name_' . LaravelLocalization::getcurrentLocale() . ' as name', //نقطه مهمه انتبه للمسافات
             'details_' . LaravelLocalization::getcurrentLocale() . ' as details',
         )->get();
@@ -117,6 +119,15 @@ class CrudController extends Controller
         return view('offers.edit', compact('offer'));
     }
 
+    public function delete($offer_id)
+    {
+        $offer = Offer::find($offer_id);
+        if (!$offer)
+            return redirect()->back()->with(['error' => __('messages.offer not exist')]);
+        $offer->delete();
+        return redirect()->route('offers.all', $offer_id)->with(['success' => __('messages.offer deleted successfully')]);
+    }
+
     public function updateOffers(OfferRequest $request, $offer_id)
     {
         //chek if offer exists
@@ -125,8 +136,15 @@ class CrudController extends Controller
         if (!$offer)
             return redirect()->back();
 
-            //update date
-            $offer -> update($request -> all());
-            return redirect() -> back() -> with(['success' => 'تم التعديل بنجاح']);
+        //update date
+        $offer->update($request->all());
+        return redirect()->back()->with(['success' => 'تم التعديل بنجاح']);
+    }
+
+    public function getVideo()
+    {
+        $video = video::first();
+        event(new VideoViewer($video)); //fire event
+        return view('video')->with('video', $video);
     }
 }
