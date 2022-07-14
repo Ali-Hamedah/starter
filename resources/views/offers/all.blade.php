@@ -101,19 +101,18 @@
 
     </nav>
 
-    @if(Session::has('success'))
-
-    <div class="alert alert-success">
-           {{Session::get('success')}}
-    </div>
+    @if (Session::has('success'))
+        <div class="alert alert-success">
+            {{ Session::get('success') }}
+        </div>
     @endif
 
 
-@if(Session::has('error'))
-     <div class="alert alert-danger">
-         {{Session::get('error')}}
-     </div>
-@endif
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
 
     <table class="table">
         <thead>
@@ -135,13 +134,15 @@
                     <td>{{ $offer->name }}</td>
                     <td>{{ $offer->details }}</td>
                     <td>{{ $offer->price }}</td>
-                    <td><img  style="width: 90px; height: 90px;" src="{{asset('images/offers/'.$offer->photo)}}"></td>
+                    <td><img style="width: 90px; height: 90px;" src="{{ asset('images/offers/' . $offer->photo) }}">
+                    </td>
 
 
                     <td><a class="btn btn-success" href="{{ url('offers/edit/' . $offer->id) }}"
                             role="button">{{ __('messages.update') }}</a>
-                            <a href="{{route('offers.delete',$offer -> id)}}" class="btn btn-danger"> {{__('messages.delete')}}</a>
-                        </td>
+                        <a href="{{ route('offers.delete', $offer->id) }}" class="btn btn-danger">
+                            {{ __('messages.delete') }}</a>
+                    </td>
 
                 </tr>
             @endforeach
@@ -149,6 +150,14 @@
 
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center">
+        {!! $offers->links() !!}
+    </div>
+
+
+
+
 
 </body>
 

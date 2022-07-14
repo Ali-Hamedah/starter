@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
+define('PAGINATE_COUNT', 10);
 
 Auth::routes(['verify' => true]);
 
@@ -114,6 +115,18 @@ Route::get('doctors_services', 'Relation\RelationsController@getDoctorServices')
 Route::get('services_doctors/{doctor_id}', 'Relation\RelationsController@getServicesDoctors')-> name('doctors.services');
 Route::post('saveServices_toDoctor', 'Relation\RelationsController@saveServicesToDoctors')-> name('save.doctors.services');
 
-
-
 ################################# End man to many Relationship  ###########################################
+
+
+################################# Begin has one through  ###########################################
+
+Route::get('hasonethrough', 'Relation\RelationsController@hasOneThrough');
+
+Route::get('contryhasmanythrough', 'Relation\RelationsController@getCountryDoctor');
+
+Route::get('country','Relation\RelationsController@getCountryProduct');
+
+Route::get('hospitalscountry','Relation\RelationsController@getHospitalsCountry');
+
+
+################################# End has one through  ###########################################

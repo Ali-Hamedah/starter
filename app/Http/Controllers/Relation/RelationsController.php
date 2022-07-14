@@ -7,6 +7,8 @@ use App\Models\Doctor;
 use App\Models\Hospital;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Countrie;
+use App\Models\Patient;
 use App\Models\Service;
 use Illuminate\Support\Facades\Redirect;
 
@@ -137,12 +139,48 @@ return redirect()->back()->with(['success' => 'تم اضافة العرض بنج
        $doctor-> services()-> syncWithoutDetaching($request -> servicesIds); // add in database اضافه بدون تكرار
 
         return 'success';
+    }
 
+    // has one through
+    public function hasOneThrough(){
+       $patient = Patient::find(2);
+        //return $patient -> doctor;
 
+     return json_encode( $patient -> doctor , JSON_UNESCAPED_UNICODE);
+    }
+
+    // عرض المستشفيات من الدوله
+    public function getCountryDoctor()
+    {
+        $country = Countrie::find(1);
+        //return $country->doctors;
+        return json_encode($country->doctors , JSON_UNESCAPED_UNICODE);
     }
 
 
+    // عرض اسم الدوله مع المستشفيات
+    public function getCountryProduct()
+    {
+        //$country = Countrie::find($countrie_id);
 
+         $countries = Countrie::with('doctors')->find(1);
+        return json_encode($countries  , JSON_UNESCAPED_UNICODE);
+
+
+        //return $country->product;
+    }
+
+    // عرض المستشفيات في الدوله
+    public function getHospitalsCountry()
+    {
+        //$country = Countrie::find($countrie_id);
+
+        $country = Countrie::with('hospitals')->find(1);
+
+        return json_encode($country  , JSON_UNESCAPED_UNICODE);
+
+        //return $country->product;
+    }
 
 
 

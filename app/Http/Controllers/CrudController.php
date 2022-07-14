@@ -24,7 +24,7 @@ class CrudController extends Controller
 
     public function __construct()
     {
-        $this -> middleware('auth');
+        $this->middleware('auth');
     }
 
 
@@ -95,6 +95,16 @@ class CrudController extends Controller
         //'name_ar','name_en', 'details_ar', 'details_en',)->get();
         // return view('offers.all', compact('offers'));
 
+        // //عرض البيانات حسب اللغه
+        // $offers =  Offer::select(
+        //     'id',
+        //     'price',
+        //     'photo',
+        //     'name_' . LaravelLocalization::getcurrentLocale() . ' as name', //نقطه مهمه انتبه للمسافات
+        //     'details_' . LaravelLocalization::getcurrentLocale() . ' as details',
+        // )->get();
+        // return view('offers.all', compact('offers'));
+
         //عرض البيانات حسب اللغه
         $offers =  Offer::select(
             'id',
@@ -102,7 +112,7 @@ class CrudController extends Controller
             'photo',
             'name_' . LaravelLocalization::getcurrentLocale() . ' as name', //نقطه مهمه انتبه للمسافات
             'details_' . LaravelLocalization::getcurrentLocale() . ' as details',
-        )->get();
+        )->paginate(PAGINATE_COUNT); // define in wep.php
         return view('offers.all', compact('offers'));
     }
 
